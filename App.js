@@ -19,10 +19,11 @@ import {
 } from 'react-native/Libraries/NewAppScreen';
 
 import LoginScreen from './src/views/LoginScreen';
-import RegisterScreen from './src/views/RegisterScreen';
+import RegisterScreen from './src/views/ViewScreen';
 import MainCard from './src/components/MainCard'
 import NewsCard from './src/components/NewsCard'
 import UpdateCard from './src/components/UpdateCard'
+import ViewScreen from './src/views/ViewScreen';
 
 const App = () => {
   const isDarkMode = useColorScheme() === 'dark';
@@ -32,7 +33,7 @@ const App = () => {
   };
 
   return (
-    <><UpdateCard /><UpdateCard /></>
+    <ViewScreen/>
   );
 };
 export default App;
