@@ -19,6 +19,7 @@ import {
 } from 'react-native/Libraries/NewAppScreen';
 
 import LoginScreen from './src/views/LoginScreen';
+import RegisterScreen from './src/views/RegisterScreen';
 
 const App = () => {
   const isDarkMode = useColorScheme() === 'dark';
@@ -28,7 +29,7 @@ const App = () => {
   };
 
   return (
-    <LoginScreen/>
+    <RegisterScreen/>
   );
 };
 export default App;
