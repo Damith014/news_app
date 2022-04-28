@@ -20,6 +20,7 @@ import {
 
 import LoginScreen from './src/views/LoginScreen';
 import RegisterScreen from './src/views/RegisterScreen';
+import MainCard from './src/components/MainCard'
 
 const App = () => {
   const isDarkMode = useColorScheme() === 'dark';
@@ -29,7 +30,7 @@ const App = () => {
   };
 
   return (
-    <RegisterScreen/>
+    <><MainCard /><MainCard /></>
   );
 };
 export default App;
