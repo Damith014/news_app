@@ -1,14 +1,17 @@
 import { Colors } from "../../constants"
-import { StyleSheet } from 'react-native';
+import { StyleSheet,Dimensions } from 'react-native';
+const windowWidth = Dimensions.get('window').width;
 
 export const styles = StyleSheet.create({
     container: {
         flex: 1,
         borderRadius: 10,
-        height: 250,
+        height: 200,
+        width:(windowWidth - 55),
     },
     image: {
-        height: 250,
+        height: 200,
+        width:(windowWidth  - 55),
         justifyContent: 'center',
     },
     sectionTitle: {

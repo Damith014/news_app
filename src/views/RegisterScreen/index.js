@@ -55,7 +55,7 @@ const RegisterScreen = ({ navigation }) => {
                     </View>
                     <View style={styles.labelSection}>
                         <Text style={styles.labelContainer}>if you already account / </Text>
-                        <TouchableOpacity>
+                        <TouchableOpacity onPress={() => navigation.navigate('LoginScreen')}>
                             <Text style={styles.labelContainerBold}>Login </Text>
                         </TouchableOpacity>
                     </View>

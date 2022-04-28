@@ -1,39 +1,35 @@
-import React, { useState } from 'react';
-import { View, ImageBackground, ScrollView, Text, StatusBar, Dimensions } from 'react-native';
+import React from 'react';
+import { View, ImageBackground, ScrollView, Text, TouchableOpacity } from 'react-native';
+import Ionicons from 'react-native-vector-icons/Ionicons'
 import { styles } from './styles';
-const ViewScreen = ({ navigation }) => {
-    let imageurl = "https://static01.nyt.com/images/2022/04/28/world/28ukraine-blog-header-540am-est/28ukraine-blog-header-540am-est-facebookJumbo.jpg"
-    const image = { uri: imageurl };
-
-    const windowWidth = Dimensions.get('window').width;
+import { Colors } from '../../constants';
+const ViewScreen = ({ navigation, route }) => {
+    console.log(route.params.params.items.publishedAt);
+    const image = { uri: route.params.params.items.urlToImage };
+    var date = (route.params.params.items.publishedAt).split("T");
     return (
 
         <View style={styles.container}>
-
-            {/* <ScrollView>
-                <View style={styles.container}>
-                    <ImageBackground source={image} style={{ height: 400 }}>
-                    </ImageBackground>
-                    <View style={styles.description}>
-                        <Text>test</Text>
-                    </View>
-                </View>
-            </ScrollView> */}
-            <ScrollView style={{ flex: 10, backgroundColor: '#ffff' }}>
+            <ScrollView style={styles.subcontainer}>
                 <View flex={1}>
-                    <ImageBackground source={image} style={{ height: 400 }}></ImageBackground>
+                    <ImageBackground source={image} style={styles.image} resizeMode='cover'>
+                        <TouchableOpacity onPress={() => navigation.goBack(null)} style={styles.backbutton}>
+                            <Ionicons name="chevron-back" size={30} color={Colors.shadow} />
+                        </TouchableOpacity>
+                    </ImageBackground>
                 </View>
-                <View style={{ flex: 2, height: 30, backgroundColor:'white', borderTopLeftRadius: 20, borderTopRightRadius: 20, position:'relative', top: -30 }}>
-                    
-                </View>
-                <View style={{ flex: 2,flexDirection:'row', position:'relative', top: -100, justifyContent:'center' }} >
-                    <View style={{ flex: 1, marginHorizontal: 16, top: -40, paddingTop: 15, width: windowWidth - 60, borderRadius: 6, position: 'absolute', backgroundColor: '#ffff', height: 200, borderTopLeftRadius: 20, borderTopRightRadius: 20 }}>
-                        <Text style={{ textAlign: 'center', fontSize: 24, fontWeight: '400', color: '#6F6F6F' }}>ddddd</Text>
-                        <Text style={{ textAlign: 'justify', fontSize: 14, fontWeight: '400', color: '#474747', marginTop: 15, }}>dddddd</Text>
-
+                <View style={styles.sectionHeade}></View>
+                <View style={styles.sectionModal}>
+                    <View style={styles.sectionPopup}>
+                        <Text style={styles.textDate}>{date[0]}</Text>
+                        <Text style={styles.textTitle}>{route.params.params.items.title}</Text>
+                        <Text style={styles.textTitle}>Published by {route.params.params.items.author}</Text>
                     </View>
                 </View>
-               
+                <View style={{ padding: 10, }}>
+                    <Text style={styles.textBody}>{route.params.params.items.content}</Text>
+                </View>
+
             </ScrollView>
         </View>
     );
