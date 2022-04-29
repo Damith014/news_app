@@ -10,7 +10,7 @@ const SplashScreen = ({ navigation }) => {
   useEffect(() => {
     setTimeout(() => {
       setAnimating(false);
-      AsyncStorage.getItem('email').then((value) =>
+      AsyncStorage.getItem('isLogin').then((value) =>
         navigation.replace(
           value === null ? 'Auth' : 'BottomTab'
         )

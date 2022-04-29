@@ -155,3 +155,10 @@ export const Countries = [{
     title: 'co',
     status: false,
 }]
+
+export const Property = [{
+    email: "email",
+    password: "password",
+    name: "name",
+    isLogin: "isLogin"
+}]

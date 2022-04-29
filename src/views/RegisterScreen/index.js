@@ -3,16 +3,18 @@ import { Text, View, ScrollView, KeyboardAvoidingView, Platform, TouchableOpacit
 import { styles } from './styles';
 import Button from '../../components/Button';
 import CustomTextInput from '../../components/CustomTextInput';
+import Client from '../../helpers';
 const RegisterScreen = ({ navigation }) => {
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-    const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
     handleName = (data) => {
         if (data.length != 0) {
             setName(data);
-            setError(null);
+            if (email.length != 0 && password.length >= 6) {
+                setError(null);
+            }
         } else {
             setError('Invalid Name');
         }
@@ -21,7 +23,9 @@ const RegisterScreen = ({ navigation }) => {
         let reg = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w\w+)+$/;
         if (reg.test(data)) {
             setEmail(data);
-            setError(null);
+            if (name.length != 0 && password.length >= 6) {
+                setError(null);
+            }
         } else {
             setError('Invalid email');
         }
@@ -30,13 +34,20 @@ const RegisterScreen = ({ navigation }) => {
         if (data.length < 6) {
             setError('Invalid password');
         } else {
-            setError(null);
+            if (name.length != 0 && email != 0) {
+                setError(null);
+            }
             setPassword(data);
         }
 
     }
-    register = () => {
-        console.log("here");
+    register = async () => {
+        let response = await Client.register(email, name, password);
+        if (response) {
+            navigation.navigate('LoginScreen')
+        } else {
+            setError('Try again!');
+        }
     }
     return (
         <View style={styles.container}>

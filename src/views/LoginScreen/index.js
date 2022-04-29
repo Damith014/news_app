@@ -3,6 +3,8 @@ import { Text, View, ScrollView, KeyboardAvoidingView, Platform, TouchableOpacit
 import { styles } from './styles';
 import Button from '../../components/Button';
 import CustomTextInput from '../../components/CustomTextInput';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { Property } from '../../constants';
 const LoginScreen = ({ navigation }) => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
@@ -12,7 +14,9 @@ const LoginScreen = ({ navigation }) => {
         let reg = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w\w+)+$/;
         if (reg.test(data)) {
             setEmail(data);
-            setError(null);
+            if (password.length >= 6) {
+                setError(null);
+            }
         } else {
             setError('Invalid email');
         }
@@ -21,13 +25,29 @@ const LoginScreen = ({ navigation }) => {
         if (data.length < 6) {
             setError('Invalid password');
         } else {
-            setError(null);
+            if (email.length != 0) {
+                setError(null);
+            }
             setPassword(data);
         }
 
     }
-    login = () => {
-        console.log("here");
+    login = async () => {
+        let response;
+        AsyncStorage.getItem('email').then((value) => {
+            console.log(value);
+            AsyncStorage.getItem('password').then((value1) => {
+                console.log(value1);
+                console.log(value === email && password === value1);
+                if (value == email && password == value1) {
+                    console.log(value === email && password === value1);
+                    AsyncStorage.setItem(`${Property.islogin}`, "true");
+                    navigation.navigate('BottomTab')
+                } else {
+                    setError('Invalid Login, Please try again!');
+                }
+            });
+        });
     }
     return (
         <View style={styles.container}>

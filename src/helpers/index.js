@@ -1,25 +1,48 @@
-import axios from "axios";
-import { APIs } from "../constants";
-const apiURL = () => {
-    const apiUrl = `https://newsapi.org/v2/top-headlines?country=us&apiKey=d44ee9e5894d474a9573228aae0eb3e4`;
-    return apiUrl;
-};
-
-const handleError = (errorObject) => {
-    const data = errorObject.response
-        ? errorObject.response.data
-        : { data: { status: errorObject.response.status, message: errorObject.response.status } };
-    throw new Error(data.message);
-};
-const handleSuccess = (response) => {
-    return {
-        articles: response.data
-    };
-};
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { Property } from "../constants/index";
 const Client = {
-    headlines: async () => {
-        await axios.get('https://newsapi.org/v2/top-headlines?country=us&apiKey=d44ee9e5894d474a9573228aae0eb3e4')
-            .then(handleSuccess).catch(handleError);
+    register: async (email, name, password) => {
+        await AsyncStorage.setItem('email', email);
+        await AsyncStorage.setItem('name', name);
+        await AsyncStorage.setItem('password', password);
+        return true
     },
+    login: async (email, password) => {
+        var u_email, u_password;
+        AsyncStorage.getItem(`${Property.email}`).then((value) => {
+            u_email = value
+            AsyncStorage.getItem(`${Property.password}`).then((value1) => {
+                u_password = value1
+                if (u_email == u_password && password == u_password) {
+                    AsyncStorage.setItem(`${Property.islogin}`, "true");
+                    return true
+                } else {
+                    return false
+                }
+            });
+        });
+    },
+    logout: async () => {
+        try {
+            await AsyncStorage.removeItem("islogin");
+            return true;
+        }
+        catch (exception) {
+            return false;
+        }
+    },
+    get: async () => {
+        try {
+            var islogin;
+            AsyncStorage.getItem(`${Property.islogin}`).then((value) =>
+                islogin = value
+            );
+            return islogin;
+        }
+        catch (exception) {
+            return "false";
+        }
+    },
+
 }
 export default Client;
